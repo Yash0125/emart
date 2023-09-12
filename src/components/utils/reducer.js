@@ -1,5 +1,5 @@
 export const initialState = {
-  cart: [],
+  cart: [], // Change this to an array of objects with id and quantity
   user: null,
 };
 
@@ -8,29 +8,46 @@ const reducer = (state, action) => {
 
   switch (action.type) {
     case "ADD_TO_CART":
-      // LOGIC FOR ADDING ITEM TO CART
+      const existingItemIndex = state.cart.findIndex(
+        (cartItem) => cartItem.id === action.item.id
+      );
+
+      let newCart = [...state.cart];
+
+      if (existingItemIndex !== -1) {
+        // If the item already exists in the cart, increment the quantity
+        newCart[existingItemIndex].quantity += 1;
+      } else {
+        // If it's a new item, add it to the cart with a quantity of 1
+        newCart.push({ ...action.item, quantity: 1 });
+      }
+
       return {
         ...state,
-        cart: [...state.cart, action.item],
+        cart: newCart,
       };
 
     case "REMOVE_FROM_CART":
       // LOGIC FOR REMOVING ITEM FROM CART
-      let newCart = [...state.cart];
+      let updatedCart = [...state.cart];
 
-      const index = state.cart.findIndex(
+      const itemIndex = state.cart.findIndex(
         (cartItem) => cartItem.id === action.id
       );
 
-      if (index >= 0) {
-        newCart.splice(index, 1);
+      if (itemIndex >= 0) {
+        if (updatedCart[itemIndex].quantity === 1) {
+          updatedCart.splice(itemIndex, 1);
+        } else {
+          updatedCart[itemIndex].quantity -= 1;
+        }
       } else {
         console.warn(
-          `Can't remove product (id: ${action.id}) as its not in cart!`
+          `Can't remove product (id: ${action.id}) as it's not in the cart!`
         );
       }
 
-      return { ...state, cart: newCart };
+      return { ...state, cart: updatedCart };
 
     default:
       return state;

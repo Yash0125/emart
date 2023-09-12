@@ -22,11 +22,7 @@ const Checkout = () => {
               "Add to Cart" next to the item.
             </p>
           </div>
-        ) 
-
-        :
-        
-         (
+        ) : (
           <div>
             <h2 className="checkout__title">Your Shopping Cart </h2>
             {cart?.map((item) => (
@@ -36,7 +32,7 @@ const Checkout = () => {
                 title={item.title}
                 image={item.image}
                 price={item.price}
-                rating={item.rating}
+                quantity={item.quantity} // Pass the quantity prop
               />
             ))}
           </div>
