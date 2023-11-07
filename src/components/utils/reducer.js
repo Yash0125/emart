@@ -16,7 +16,7 @@ const reducer = (state, action) => {
 
       if (existingItemIndex !== -1) {
         // If the item already exists in the cart, increment the quantity
-        newCart[existingItemIndex].quantity += 1;
+        newCart[existingItemIndex].quantity += 0.5;
       } else {
         // If it's a new item, add it to the cart with a quantity of 1
         newCart.push({ ...action.item, quantity: 1 });
@@ -39,7 +39,7 @@ const reducer = (state, action) => {
         if (updatedCart[itemIndex].quantity === 1) {
           updatedCart.splice(itemIndex, 1);
         } else {
-          updatedCart[itemIndex].quantity -= 1;
+          updatedCart[itemIndex].quantity -= 0.5;
         }
       } else {
         console.warn(
